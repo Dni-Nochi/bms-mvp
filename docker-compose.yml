@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # 1. Сервис Базы Данных (PostgreSQL)
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: bms_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: bms_user
+      POSTGRES_PASSWORD: bms_password
+      POSTGRES_DB: bms_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Бэкенд (Python)
+  backend:
+    build: ./backend
+    container_name: bms_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://bms_user:bms_password@postgres_db:5432/bms_database
+    depends_on:
+      - postgres_db
+
+  # 3. Фронтенд (React)
+  frontend:
+    build: ./frontend
+    container_name: bms_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+# Сохранение данных базы при перезапуске
+volumes:
+  postgres_data:
