@@ -1,22 +1,23 @@
 import type { FC } from 'react';
+import { Sidebar } from '@/widgets/Sidebar';
+import { TopBar } from '@/widgets/TopBar';
+import { JobList } from '@/widgets/JobList';
+import { JobFilters } from '@/widgets/JobFilters'; // <-- Импортируем фильтры
 
 export const ExchangePage: FC = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 font-sans">
-      <div className="w-65 bg-[#F4F7FC] border-r border-gray-200 shrink-0">
-        Сайдбар
-      </div>
+      <Sidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-18 bg-white border-b border-gray-200 flex items-center px-8 shrink-0">
-          TopBar
-        </header>
+        <TopBar />
 
         <main className="flex-1 p-8 overflow-auto">
-          <div className="max-w-300 mx-auto flex gap-6">
-            <aside className="w-70 shrink-0">Блок фильтров</aside>
+          <div className="max-w-300 mx-auto flex gap-6 items-start">
+            {/* Вставляем виджет фильтров */}
+            <JobFilters />
 
-            <section className="flex-1">Список вакансий</section>
+            <JobList />
           </div>
         </main>
       </div>
