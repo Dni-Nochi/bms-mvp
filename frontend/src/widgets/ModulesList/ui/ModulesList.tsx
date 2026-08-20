@@ -1,10 +1,12 @@
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { ModuleCard } from '@/entities/ModulesCard';
 
 const MODULES_DATA = [
   {
     id: 1,
     title: 'Exchange',
+    path: '/exchange',
     description: 'Находите партнеров и нанимайте специалистов',
     badge: 'Обновлено',
     badgeType: 'blue',
@@ -33,6 +35,7 @@ const MODULES_DATA = [
   {
     id: 2,
     title: 'My',
+    path: '/',
     description: 'Обновляйте и управляйте личными данными',
     icon: (
       <svg
@@ -54,6 +57,7 @@ const MODULES_DATA = [
   {
     id: 3,
     title: 'IAM',
+    path: '/',
     description: 'Назначайте роли и контролируйте доступ',
     icon: (
       <svg
@@ -74,6 +78,7 @@ const MODULES_DATA = [
   {
     id: 4,
     title: 'Messenger',
+    path: '/',
     description: 'Общайтесь, обменивайтесь файлами и работайте вместе',
     badge: 'Бета',
     badgeType: 'gray',
@@ -96,6 +101,7 @@ const MODULES_DATA = [
   {
     id: 5,
     title: 'Billing',
+    path: '/',
     description: 'Управляйте счетами и транзакциями',
     icon: (
       <svg
@@ -117,6 +123,7 @@ const MODULES_DATA = [
   {
     id: 6,
     title: 'Tracker',
+    path: '/',
     description: 'Отслеживайте время и повышайте продуктивность',
     icon: (
       <svg
@@ -138,6 +145,7 @@ const MODULES_DATA = [
   {
     id: 7,
     title: 'Academy',
+    path: '/',
     description: 'Обучайтесь и развивайтесь',
     icon: (
       <svg
@@ -164,6 +172,7 @@ const MODULES_DATA = [
   {
     id: 8,
     title: 'Archive',
+    path: '/',
     description: 'Храните историю и записи',
     icon: (
       <svg
@@ -186,14 +195,19 @@ export const ModulesList: FC = () => {
     <section>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {MODULES_DATA.map((module) => (
-          <ModuleCard
+          <Link
             key={module.id}
-            title={module.title}
-            description={module.description}
-            badge={module.badge}
-            badgeType={module.badgeType as 'blue' | 'gray' | undefined}
-            icon={module.icon}
-          />
+            to={module.path}
+            className="block h-full outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl"
+          >
+            <ModuleCard
+              title={module.title}
+              description={module.description}
+              badge={module.badge}
+              badgeType={module.badgeType as 'blue' | 'gray' | undefined}
+              icon={module.icon}
+            />
+          </Link>
         ))}
       </div>
     </section>
