@@ -13,7 +13,15 @@ export interface JobCardProps {
   language?: string;
   description: string;
   skills: string[];
+  showLocalCurrency?: boolean;
 }
+
+const EXCHANGE_RATES: Record<string, number> = {
+  EUR: 500,
+  USD: 450,
+  RUB: 5,
+  KZT: 1,
+};
 
 export const JobCard: FC<JobCardProps> = ({
   title,
@@ -28,17 +36,19 @@ export const JobCard: FC<JobCardProps> = ({
   language,
   description,
   skills,
+  showLocalCurrency = false,
 }) => {
-  // Функция для красивого форматирования зарплаты
-  const formatSalary = (min: number, max: number | null, curr: string) => {
-    // Форматируем числа, добавляя пробелы для тысяч (например: 80 000)
-    const minFormatted = min.toLocaleString('ru-RU');
-    if (max) {
-      const maxFormatted = max.toLocaleString('ru-RU');
-      return `${minFormatted} - ${maxFormatted} ${curr}`;
-    }
-    return `от ${minFormatted} ${curr}`;
+  const formatSalary = (min?: number, max?: number | null, curr?: string) => {
+    if (min === undefined || min === null) return 'Зарплата не указана';
+    const minStr = min.toLocaleString('ru-RU');
+    if (max) return `${minStr} - ${max.toLocaleString('ru-RU')} ${curr}`;
+    return `от ${minStr} ${curr}`;
   };
+
+  const rate = EXCHANGE_RATES[currency] || 1;
+  const kztMin = salaryMin * rate;
+  const kztMax = salaryMax ? salaryMax * rate : null;
+  const showConverted = showLocalCurrency && currency !== 'KZT';
 
   return (
     <article className="p-6 bg-white border border-gray-200 rounded-2xl hover:shadow-sm transition-shadow">
@@ -61,6 +71,11 @@ export const JobCard: FC<JobCardProps> = ({
           <div className="text-[19px] font-semibold text-gray-900 leading-tight">
             {formatSalary(salaryMin, salaryMax, currency)}
           </div>
+          {showConverted && (
+            <div className="text-[14px] font-medium text-blue-600 mt-1">
+              ~ {formatSalary(kztMin, kztMax, 'KZT')}
+            </div>
+          )}
           <div className="text-[13px] text-gray-500 mt-1">{salaryPeriod}</div>
         </div>
       </div>

@@ -1,10 +1,12 @@
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 import { Sidebar } from '@/widgets/Sidebar';
 import { TopBar } from '@/widgets/TopBar';
 import { JobList } from '@/widgets/JobList';
-import { JobFilters } from '@/widgets/JobFilters'; // <-- Импортируем фильтры
+import { JobFilters } from '@/widgets/JobFilters';
 
 export const ExchangePage: FC = () => {
+  const [showLocalCurrency, setShowLocalCurrency] = useState(false);
+
   return (
     <div className="min-h-screen flex bg-gray-50 font-sans">
       <Sidebar />
@@ -14,10 +16,14 @@ export const ExchangePage: FC = () => {
 
         <main className="flex-1 p-8 overflow-auto">
           <div className="max-w-300 mx-auto flex gap-6 items-start">
-            {/* Вставляем виджет фильтров */}
-            <JobFilters />
+            <JobFilters
+              isLocalCurrency={showLocalCurrency}
+              onLocalCurrencyToggle={() =>
+                setShowLocalCurrency(!showLocalCurrency)
+              }
+            />
 
-            <JobList />
+            <JobList showLocalCurrency={showLocalCurrency} />
           </div>
         </main>
       </div>

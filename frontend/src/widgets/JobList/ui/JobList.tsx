@@ -1,13 +1,15 @@
 import type { FC } from 'react';
 import { JobCard } from '@/entities/JobCard';
-// Импортируем наши новые крутые моки
 import { MOCK_JOBS } from '@/shared/mocks/jobs';
 
-export const JobList: FC = () => {
+interface JobListProps {
+  showLocalCurrency: boolean;
+}
+
+export const JobList: FC<JobListProps> = ({ showLocalCurrency }) => {
   return (
     <section className="flex-1 flex flex-col gap-4">
       <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl">
-        {/* Динамически выводим количество */}
         <span className="text-[14px] text-gray-700 font-medium">
           {MOCK_JOBS.length} вакансий найдено
         </span>
@@ -21,10 +23,13 @@ export const JobList: FC = () => {
         </div>
       </div>
 
-      {/* Отрисовываем весь список */}
       <div className="flex flex-col gap-4">
         {MOCK_JOBS.map((job) => (
-          <JobCard key={job.id} {...job} />
+          <JobCard
+            key={job.id}
+            {...job}
+            showLocalCurrency={showLocalCurrency}
+          />
         ))}
       </div>
     </section>

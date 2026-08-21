@@ -1,10 +1,17 @@
 import type { FC } from 'react';
 import { Checkbox } from '@/shared/ui/Checkbox/Checkbox';
 
-export const JobFilters: FC = () => {
+interface JobFiltersProps {
+  isLocalCurrency: boolean;
+  onLocalCurrencyToggle: () => void;
+}
+
+export const JobFilters: FC<JobFiltersProps> = ({
+  isLocalCurrency,
+  onLocalCurrencyToggle,
+}) => {
   return (
     <aside className="w-70 bg-white border border-gray-200 rounded-2xl p-6 shrink-0 h-fit">
-      {/* Шапка фильтра */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-[17px] font-bold text-gray-900">Фильтр</h2>
         <button className="text-[13px] font-medium text-blue-600 hover:text-blue-800 transition-colors">
@@ -12,9 +19,7 @@ export const JobFilters: FC = () => {
         </button>
       </div>
 
-      {/* Кнопка Поиск с ИИ */}
-      <div className="mb-8 pb-6 border-b border-gray-100">
-        {/* Обновили bg-gradient-to-r на bg-linear-to-r под Tailwind v4 */}
+      <div className="mb-6">
         <button className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium text-[14px] rounded-xl transition-all shadow-sm hover:shadow-md">
           <svg
             className="w-4 h-4"
@@ -33,7 +38,20 @@ export const JobFilters: FC = () => {
         </button>
       </div>
 
-      {/* Блок: Навыки */}
+      <div className="mb-8 pb-6 border-b border-gray-100">
+        <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
+          <Checkbox
+            label="Показать в валюте региона (KZT)"
+            className="text-blue-900 font-medium"
+            checked={isLocalCurrency}
+            onChange={onLocalCurrencyToggle}
+          />
+          <p className="text-[12px] text-gray-500 mt-2 ml-8">
+            *на основе вашей геолокации
+          </p>
+        </div>
+      </div>
+
       <div className="mb-6">
         <h3 className="text-[13px] font-semibold text-gray-900 mb-3">Навыки</h3>
         <div className="relative">
@@ -60,7 +78,6 @@ export const JobFilters: FC = () => {
         </div>
       </div>
 
-      {/* Блок: Уровень */}
       <div className="mb-6">
         <h3 className="text-[13px] font-semibold text-gray-900 mb-3">
           Уровень
@@ -72,7 +89,6 @@ export const JobFilters: FC = () => {
         </div>
       </div>
 
-      {/* Блок: Формат работы */}
       <div className="mb-6">
         <h3 className="text-[13px] font-semibold text-gray-900 mb-3">
           Формат работы
@@ -84,7 +100,6 @@ export const JobFilters: FC = () => {
         </div>
       </div>
 
-      {/* Блок: Тип занятости */}
       <div>
         <h3 className="text-[13px] font-semibold text-gray-900 mb-3">
           Тип занятости
