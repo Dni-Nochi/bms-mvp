@@ -5,6 +5,7 @@
 """
 
 from app.database import Base, SessionLocal, engine
+from app.migrate import migrate
 from app.models import Company, Resume, Vacancy
 from app.seed_data import COMPANIES, RESUMES, VACANCIES
 
@@ -42,6 +43,7 @@ def seed(db) -> None:
 
 def main() -> None:
     Base.metadata.create_all(bind=engine)
+    migrate(engine)
     db = SessionLocal()
     try:
         seed(db)

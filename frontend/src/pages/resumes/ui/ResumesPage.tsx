@@ -1,69 +1,38 @@
-import { useState, useEffect, type FC } from 'react';
+import type { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sidebar } from '@/widgets/Sidebar';
 import { TopBar } from '@/widgets/TopBar';
 import { ExchangeTabs } from '@/widgets/ExchangeTabs';
-import { ProfileHeader } from '@/widgets/ProfileHeader';
-import { ResumeForm } from '@/widgets/ResumeForm';
-import { resumeApi, type ResumeDTO } from '@/shared/api/resumeApi';
+import { ResumeList } from '@/widgets/ResumeList';
 
 export const ResumesPage: FC = () => {
-  const [formData, setFormData] = useState<ResumeDTO | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-
-  // Загрузка данных при монтировании (имитация GET запроса)
-  useEffect(() => {
-    resumeApi.getResume().then((data) => {
-      setFormData(data);
-      setIsLoading(false);
-    });
-  }, []);
-
-  const handleChange = (field: keyof ResumeDTO, value: string) => {
-    if (formData) {
-      setFormData({ ...formData, [field]: value });
-    }
-  };
-
-  // Сохранение (имитация POST/PUT запроса)
-  const handleSave = async () => {
-    if (!formData) return;
-    setIsSaving(true);
-    await resumeApi.updateResume(formData);
-    setIsSaving(false);
-    alert('Резюме успешно сохранено в Mock-БД!');
-  };
+  const navigate = useNavigate();
 
   return (
-    <div className="h-screen flex overflow-hidden bg-gray-50 font-sans">
+    <div className="min-h-screen flex bg-gray-50 font-sans">
       <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0 h-full">
+
+      <div className="flex-1 flex flex-col min-w-0">
         <TopBar />
-        <main className="flex-1 p-8 overflow-auto relative">
-          <div className="max-w-[1000px] mx-auto pb-12">
+
+        <main className="flex-1 p-8 overflow-auto">
+          <div className="max-w-300 mx-auto">
             <ExchangeTabs />
-            <ProfileHeader />
 
-            {isLoading || !formData ? (
-              <div className="text-center py-10 text-gray-500">
-                Загрузка данных...
-              </div>
-            ) : (
-              <>
-                <ResumeForm data={formData} onChange={handleChange} />
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-[22px] font-bold text-gray-900">Мои резюме</h1>
+              <button
+                onClick={() => navigate('/exchange/resumes/new')}
+                className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-[14px] rounded-xl transition-colors shadow-sm"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Создать резюме
+              </button>
+            </div>
 
-                {/* Кнопка сохранения внизу */}
-                <div className="mt-6 flex justify-end">
-                  <button
-                    onClick={handleSave}
-                    disabled={isSaving}
-                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium text-[14px] rounded-xl transition-colors shadow-sm"
-                  >
-                    {isSaving ? 'Сохранение...' : 'Сохранить изменения'}
-                  </button>
-                </div>
-              </>
-            )}
+            <ResumeList />
           </div>
         </main>
       </div>

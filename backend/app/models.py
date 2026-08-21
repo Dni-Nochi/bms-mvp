@@ -68,18 +68,42 @@ class Resume(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     owner_email: Mapped[str | None] = mapped_column(Text, default=None)
 
-    title: Mapped[str] = mapped_column(Text)
-    summary: Mapped[str] = mapped_column(Text)
+    # Личная информация
+    first_name: Mapped[str] = mapped_column(Text, default="")
+    last_name: Mapped[str] = mapped_column(Text, default="")
+    birth_date: Mapped[str | None] = mapped_column(Text, default=None)
+    country: Mapped[str | None] = mapped_column(Text, default=None)
+    city: Mapped[str | None] = mapped_column(Text, default=None)
 
+    # Контакты
+    phone: Mapped[str | None] = mapped_column(Text, default=None)
+    contact_email: Mapped[str | None] = mapped_column(Text, default=None)
+
+    # Резюме
+    title: Mapped[str] = mapped_column(Text)  # Должность
+    summary: Mapped[str] = mapped_column(Text)  # Описание
+    portfolio_url: Mapped[str | None] = mapped_column(Text, default=None)
+    extra_fields: Mapped[list[dict]] = mapped_column(JSON, default=list)
+
+    # Опыт работы
+    work_experience: Mapped[list[dict]] = mapped_column(JSON, default=list)
+
+    # Навыки и языки
     skills: Mapped[list[str]] = mapped_column(JSON, default=list)
-    experience_level: Mapped[str] = mapped_column(Text)
-
-    desired_employment_types: Mapped[list[str]] = mapped_column(JSON, default=list)
-    desired_work_formats: Mapped[list[str]] = mapped_column(JSON, default=list)
     languages: Mapped[list[str]] = mapped_column(JSON, default=list)
 
+    # Зарплата
+    salary_type: Mapped[str | None] = mapped_column(Text, default="Фиксированная")
     desired_salary_min: Mapped[int | None] = mapped_column(default=None)
     desired_salary_max: Mapped[int | None] = mapped_column(default=None)
     desired_salary_currency: Mapped[str | None] = mapped_column(default=None)
+
+    # Рабочие предпочтения
+    experience_level: Mapped[str] = mapped_column(Text)
+    desired_employment_types: Mapped[list[str]] = mapped_column(JSON, default=list)
+    desired_work_formats: Mapped[list[str]] = mapped_column(JSON, default=list)
+
+    # Видимость
+    visibility: Mapped[str] = mapped_column(Text, default="Только я")
 
     created_at: Mapped[datetime] = mapped_column(default=utcnow)

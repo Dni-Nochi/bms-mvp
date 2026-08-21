@@ -44,36 +44,77 @@ class VacancyListOut(BaseModel):
     items: list[VacancyOut]
 
 
+class WorkExperienceEntry(BaseModel):
+    company: str = ""
+    position: str = ""
+    start: str = ""
+    end: str = ""
+    description: str = ""
+
+
+class ExtraField(BaseModel):
+    label: str
+    value: str
+
+
 class ResumeOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     owner_email: str | None
+    first_name: str
+    last_name: str
+    birth_date: str | None
+    country: str | None
+    city: str | None
+    phone: str | None
+    contact_email: str | None
     title: str
     summary: str
+    portfolio_url: str | None
+    extra_fields: list[ExtraField]
+    work_experience: list[WorkExperienceEntry]
     skills: list[str]
-    experience_level: str
-    desired_employment_types: list[str]
-    desired_work_formats: list[str]
     languages: list[str]
+    salary_type: str | None
     desired_salary_min: int | None
     desired_salary_max: int | None
     desired_salary_currency: str | None
+    experience_level: str
+    desired_employment_types: list[str]
+    desired_work_formats: list[str]
+    visibility: str
     created_at: datetime
 
 
 class ResumeCreate(BaseModel):
     owner_email: str | None = None
+    first_name: str = ""
+    last_name: str = ""
+    birth_date: str | None = None
+    country: str | None = None
+    city: str | None = None
+    phone: str | None = None
+    contact_email: str | None = None
     title: str
     summary: str = ""
+    portfolio_url: str | None = None
+    extra_fields: list[ExtraField] = []
+    work_experience: list[WorkExperienceEntry] = []
     skills: list[str] = []
-    experience_level: str = "Средний"
-    desired_employment_types: list[str] = []
-    desired_work_formats: list[str] = []
     languages: list[str] = []
+    salary_type: str | None = "Фиксированная"
     desired_salary_min: int | None = None
     desired_salary_max: int | None = None
     desired_salary_currency: str | None = None
+    experience_level: str = "Средний"
+    desired_employment_types: list[str] = []
+    desired_work_formats: list[str] = []
+    visibility: str = "Только я"
+
+
+class ResumeUpdate(ResumeCreate):
+    pass
 
 
 class VacancyMatchOut(BaseModel):
