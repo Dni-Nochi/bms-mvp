@@ -13,7 +13,15 @@ export interface JobCardProps {
   language?: string;
   description: string;
   skills: string[];
+  matchPercentage?: number;
+  logoLetter?: string;
   showLocalCurrency?: boolean;
+}
+
+function matchBadgeStyles(percentage: number): string {
+  if (percentage >= 70) return 'bg-green-50 text-green-700 border-green-200';
+  if (percentage >= 40) return 'bg-amber-50 text-amber-700 border-amber-200';
+  return 'bg-gray-100 text-gray-600 border-gray-200';
 }
 
 const EXCHANGE_RATES: Record<string, number> = {
@@ -36,6 +44,8 @@ export const JobCard: FC<JobCardProps> = ({
   language,
   description,
   skills,
+  matchPercentage,
+  logoLetter,
   showLocalCurrency = false,
 }) => {
   const formatSalary = (min?: number, max?: number | null, curr?: string) => {
@@ -56,13 +66,23 @@ export const JobCard: FC<JobCardProps> = ({
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center shrink-0">
             <span className="text-blue-600 font-bold text-xl">
-              {company.charAt(0)}
+              {logoLetter ?? company.charAt(0).toUpperCase()}
             </span>
           </div>
           <div>
-            <h3 className="text-[19px] font-semibold text-blue-700 leading-tight hover:underline cursor-pointer">
-              {title}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-[19px] font-semibold text-blue-700 leading-tight hover:underline cursor-pointer">
+                {title}
+              </h3>
+              {matchPercentage !== undefined && (
+                <span
+                  className={`shrink-0 text-[12px] font-semibold px-2 py-0.5 rounded-full border ${matchBadgeStyles(matchPercentage)}`}
+                  title="Совпадение с вашим резюме"
+                >
+                  {matchPercentage}% совпадение
+                </span>
+              )}
+            </div>
             <p className="text-[15px] text-gray-600 mt-1">{company}</p>
           </div>
         </div>

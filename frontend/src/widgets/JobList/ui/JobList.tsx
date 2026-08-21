@@ -1,112 +1,73 @@
-import { useState, useRef, useEffect, type FC } from 'react';
+import type { FC } from 'react';
 import { JobCard } from '@/entities/JobCard';
-import type { Job } from '@/shared/mocks/jobs';
+import { formatLanguage } from '@/entities/Vacancy';
+import { applyFilters, setSort, sortVacancies, useRankedVacancies } from '@/features/vacancySearch';
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux';
+import type { SortOption } from '@/features/vacancySearch';
 
-interface JobListProps {
-  jobs: Job[];
-  showLocalCurrency: boolean;
-  sortBy: string;
-  onSortChange: (value: string) => void;
-}
+export const JobList: FC = () => {
+  const dispatch = useAppDispatch();
+  const filters = useAppSelector((state) => state.vacancySearch);
+  const { items, isLoading, isFetching, error } = useRankedVacancies();
 
-const SORT_OPTIONS = ['Сначала новые', 'Сначала старые', 'Больше зарплата'];
-
-export const JobList: FC<JobListProps> = ({
-  jobs,
-  showLocalCurrency,
-  sortBy,
-  onSortChange,
-}) => {
-  // Состояние для открытия/закрытия кастомного дропдауна
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Закрытие дропдауна при клике вне его области
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const filtered = applyFilters(items, filters);
+  const sorted = sortVacancies(filtered, filters.sort);
 
   return (
     <section className="flex-1 flex flex-col gap-4">
-      {/* Верхняя панель */}
-      <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl relative z-20">
+      {/* Верхняя панель списка (Количество и Сортировка) */}
+      <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl">
         <span className="text-[14px] text-gray-700 font-medium">
-          {jobs.length} вакансий найдено
+          {isLoading ? 'Загрузка…' : `${sorted.length} вакансий найдено`}
         </span>
-
-        {/* Кастомный дропдаун сортировки */}
-        <div className="flex items-center gap-3 relative" ref={dropdownRef}>
+        <div className="flex items-center gap-3">
           <span className="text-[14px] text-gray-500">Сортировка:</span>
-
-          {/* Кнопка-триггер */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-1.5 text-[14px] font-medium text-gray-900 hover:text-blue-600 transition-colors focus:outline-none"
+          <select
+            value={filters.sort}
+            onChange={(e) => dispatch(setSort(e.target.value as SortOption))}
+            className="text-[14px] font-medium text-gray-900 bg-transparent focus:outline-none cursor-pointer"
           >
-            {sortBy}
-            <svg
-              className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-
-          {/* Выпадающий список */}
-          {isOpen && (
-            <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-lg py-1.5 z-50">
-              {SORT_OPTIONS.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => {
-                    onSortChange(option);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-4 py-2.5 text-[14px] transition-colors ${
-                    sortBy === option
-                      ? 'bg-blue-50/50 text-blue-700 font-medium'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          )}
+            {filters.aiMode && <option value="match">По соответствию (ИИ)</option>}
+            <option value="newest">Сначала новые</option>
+            <option value="oldest">Сначала старые</option>
+            <option value="salary">Больше зарплата</option>
+          </select>
         </div>
       </div>
 
+      {error && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-[14px] text-red-700">
+          Не удалось загрузить вакансии. Проверьте, что backend запущен и доступен.
+        </div>
+      )}
+
+      {!error && !isLoading && sorted.length === 0 && (
+        <div className="p-8 bg-white border border-gray-200 rounded-xl text-center text-[14px] text-gray-500">
+          По вашим фильтрам вакансий не найдено.
+        </div>
+      )}
+
       {/* Список карточек */}
-      <div className="flex flex-col gap-4 relative z-0">
-        {jobs.length > 0 ? (
-          jobs.map((job) => (
-            <JobCard
-              key={job.id}
-              {...job}
-              showLocalCurrency={showLocalCurrency}
-            />
-          ))
-        ) : (
-          <div className="p-8 text-center bg-white border border-gray-200 rounded-xl text-gray-500">
-            По вашим критериям вакансий не найдено.
-          </div>
-        )}
+      <div className={`flex flex-col gap-4 transition-opacity ${isFetching ? 'opacity-60' : ''}`}>
+        {sorted.map(({ vacancy, matchPercentage }) => (
+          <JobCard
+            key={vacancy.id}
+            title={vacancy.title}
+            company={vacancy.company.name}
+            salaryMin={vacancy.salary_min ?? 0}
+            salaryMax={vacancy.salary_max}
+            currency={vacancy.salary_currency ?? ''}
+            showLocalCurrency={filters.showLocalCurrency}
+            format={vacancy.work_format}
+            schedule={vacancy.employment_type}
+            location={vacancy.location}
+            language={formatLanguage(vacancy)}
+            description={vacancy.description}
+            skills={vacancy.skills}
+            matchPercentage={matchPercentage}
+            logoLetter={vacancy.company.logo_letter ?? undefined}
+          />
+        ))}
       </div>
     </section>
   );
