@@ -3,7 +3,9 @@ import type { FC } from 'react';
 export interface JobCardProps {
   title: string;
   company: string;
-  salary: string;
+  salaryMin: number;
+  salaryMax: number | null;
+  currency: string;
   salaryPeriod?: string;
   format: string;
   schedule: string;
@@ -16,7 +18,9 @@ export interface JobCardProps {
 export const JobCard: FC<JobCardProps> = ({
   title,
   company,
-  salary,
+  salaryMin,
+  salaryMax,
+  currency,
   salaryPeriod = 'в месяц',
   format,
   schedule,
@@ -25,15 +29,25 @@ export const JobCard: FC<JobCardProps> = ({
   description,
   skills,
 }) => {
+  // Функция для красивого форматирования зарплаты
+  const formatSalary = (min: number, max: number | null, curr: string) => {
+    // Форматируем числа, добавляя пробелы для тысяч (например: 80 000)
+    const minFormatted = min.toLocaleString('ru-RU');
+    if (max) {
+      const maxFormatted = max.toLocaleString('ru-RU');
+      return `${minFormatted} - ${maxFormatted} ${curr}`;
+    }
+    return `от ${minFormatted} ${curr}`;
+  };
+
   return (
     <article className="p-6 bg-white border border-gray-200 rounded-2xl hover:shadow-sm transition-shadow">
-      {/* Шапка карточки: Логотип, Должность, Зарплата */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-4">
-          {/* Логотип компании */}
           <div className="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center shrink-0">
-            <span className="text-blue-600 font-bold text-xl">C</span>{' '}
-            {/* Заглушка логотипа */}
+            <span className="text-blue-600 font-bold text-xl">
+              {company.charAt(0)}
+            </span>
           </div>
           <div>
             <h3 className="text-[19px] font-semibold text-blue-700 leading-tight hover:underline cursor-pointer">
@@ -45,13 +59,12 @@ export const JobCard: FC<JobCardProps> = ({
 
         <div className="text-right">
           <div className="text-[19px] font-semibold text-gray-900 leading-tight">
-            {salary}
+            {formatSalary(salaryMin, salaryMax, currency)}
           </div>
           <div className="text-[13px] text-gray-500 mt-1">{salaryPeriod}</div>
         </div>
       </div>
 
-      {/* Мета-информация (Иконки) */}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4 text-[13px] text-gray-600 font-medium">
         <div className="flex items-center gap-1.5">
           <svg
@@ -126,12 +139,10 @@ export const JobCard: FC<JobCardProps> = ({
         )}
       </div>
 
-      {/* Описание вакансии */}
       <p className="text-[14px] text-gray-700 leading-relaxed mb-5 line-clamp-2">
         {description}
       </p>
 
-      {/* Теги навыков */}
       <div className="flex flex-wrap gap-2">
         {skills.map((skill, index) => (
           <span
