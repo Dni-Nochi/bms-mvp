@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Header: FC = () => {
   return (
@@ -22,12 +23,16 @@ export const Header: FC = () => {
           </svg>
         </button>
 
-        <div className="flex items-center gap-2">
+        {/* ТЕПЕРЬ ЛОГОТИП КЛИКАБЕЛЬНЫЙ И ВЕДЕТ НА ГЛАВНУЮ */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+        >
           <div className="w-8 h-8 rounded-full border-4 border-blue-600 flex items-center justify-center"></div>
           <span className="text-xl font-bold text-gray-900 tracking-wide">
             BMS
           </span>
-        </div>
+        </Link>
       </div>
 
       <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">

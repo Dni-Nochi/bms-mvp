@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Checkbox } from '@/shared/ui/Checkbox/Checkbox';
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux';
 import { useGetResumesQuery } from '@/entities/Resume';
@@ -20,7 +21,32 @@ const EMPLOYMENT_TYPES = ['Почасовая', 'Частичная', 'Полн�
 export const JobFilters: FC = () => {
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.vacancySearch);
-  const { data: resumes = [], isLoading: resumesLoading } = useGetResumesQuery();
+  const { data: resumes = [], isLoading: resumesLoading } =
+    useGetResumesQuery();
+
+  // --- ЛОГИКА КАСТОМНОГО ДРОПДАУНА ДЛЯ РЕЗЮМЕ ---
+  const [isResumeDropdownOpen, setIsResumeDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsResumeDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Находим название выбранного резюме для отображения на кнопке
+  const selectedResume = resumes.find((r) => r.id === filters.resumeId);
+  const resumeButtonLabel = resumesLoading
+    ? 'Загрузка резюме…'
+    : selectedResume?.title || 'Выберите резюме';
+  // ----------------------------------------------
 
   const handleToggleAi = () => {
     if (!filters.aiMode && filters.resumeId === null && resumes.length > 0) {
@@ -47,21 +73,72 @@ export const JobFilters: FC = () => {
         <label className="block text-[13px] font-semibold text-gray-900 mb-2">
           Резюме для подбора
         </label>
-        <select
-          value={filters.resumeId ?? ''}
-          onChange={(e) => dispatch(setResumeId(e.target.value ? Number(e.target.value) : null))}
-          disabled={resumesLoading || resumes.length === 0}
-          className="w-full appearance-none bg-white border border-gray-300 text-gray-700 text-[14px] rounded-xl px-3 py-2.5 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer disabled:opacity-50"
-        >
-          <option value="" disabled>
-            {resumesLoading ? 'Загрузка резюме…' : 'Выберите резюме'}
-          </option>
-          {resumes.map((resume) => (
-            <option key={resume.id} value={resume.id}>
-              {resume.title}
-            </option>
-          ))}
-        </select>
+
+        {/* КАСТОМНЫЙ ДРОПДАУН ВМЕСТО SELECT */}
+        <div className="relative mb-3" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setIsResumeDropdownOpen(!isResumeDropdownOpen)}
+            disabled={resumesLoading || resumes.length === 0}
+            className={`w-full flex items-center justify-between bg-white border border-gray-300 text-[14px] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors ${
+              resumesLoading || resumes.length === 0
+                ? 'opacity-50 cursor-not-allowed text-gray-500'
+                : 'text-gray-900 cursor-pointer'
+            }`}
+          >
+            <span className="truncate pr-2 text-left">{resumeButtonLabel}</span>
+            <svg
+              className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${isResumeDropdownOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          {isResumeDropdownOpen && (
+            <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg py-1 z-50 max-h-60 overflow-y-auto custom-scrollbar">
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(setResumeId(null));
+                  setIsResumeDropdownOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2.5 text-[14px] transition-colors ${
+                  filters.resumeId === null
+                    ? 'bg-blue-50 text-blue-700 font-medium'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Выберите резюме
+              </button>
+              {resumes.map((resume) => (
+                <button
+                  key={resume.id}
+                  type="button"
+                  onClick={() => {
+                    dispatch(setResumeId(resume.id));
+                    setIsResumeDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2.5 text-[14px] transition-colors truncate ${
+                    filters.resumeId === resume.id
+                      ? 'bg-blue-50 text-blue-700 font-medium'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                  title={resume.title}
+                >
+                  {resume.title}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <button
           onClick={handleToggleAi}

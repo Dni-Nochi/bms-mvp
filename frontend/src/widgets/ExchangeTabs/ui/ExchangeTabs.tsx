@@ -17,9 +17,6 @@ export const ExchangeTabs: FC = () => {
       <NavLink to="/exchange/resumes" className={getTabClass}>
         Мои резюме
       </NavLink>
-      <NavLink to="/exchange/applications" className={getTabClass}>
-        Заявки и предложения
-      </NavLink>
     </nav>
   );
 };

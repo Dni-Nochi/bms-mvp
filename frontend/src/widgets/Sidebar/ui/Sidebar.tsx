@@ -161,8 +161,11 @@ const NAV_ITEMS = [
 export const Sidebar: FC = () => {
   return (
     <aside className="w-65 h-screen bg-[#F4F7FC] border-r border-gray-200 flex flex-col shrink-0">
-      {/* Логотип и профиль компании */}
-      <div className="p-6 flex items-center gap-3">
+      {/* Логотип и профиль компании (ТЕПЕРЬ КЛИКАБЕЛЬНЫЙ) */}
+      <Link
+        to="/"
+        className="p-6 flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+      >
         <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shrink-0">
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H6v-2h4v2zm0-4H6v-2h4v2zm0-4H6V7h4v2zm6 8h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V7h4v2z" />
@@ -174,7 +177,7 @@ export const Sidebar: FC = () => {
           </span>
           <span className="text-xs text-gray-500 mt-1">Corporate Admin</span>
         </div>
-      </div>
+      </Link>
 
       {/* Основное меню */}
       <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
