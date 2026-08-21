@@ -3,7 +3,6 @@ import { Sidebar } from '@/widgets/Sidebar';
 import { TopBar } from '@/widgets/TopBar';
 import { JobList } from '@/widgets/JobList';
 import { JobFilters } from '@/widgets/JobFilters';
-// 1. Импортируем вкладки
 import { ExchangeTabs } from '@/widgets/ExchangeTabs';
 import { MOCK_JOBS } from '@/shared/mocks/jobs';
 
@@ -15,7 +14,6 @@ const EXCHANGE_RATES: Record<string, number> = {
 };
 
 export const ExchangePage: FC = () => {
-  // ... (все твои стейты и useMemo остаются БЕЗ ИЗМЕНЕНИЙ) ...
   const [showLocalCurrency, setShowLocalCurrency] = useState(false);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
@@ -47,6 +45,7 @@ export const ExchangePage: FC = () => {
       const matchEmployment =
         selectedEmployments.length === 0 ||
         selectedEmployments.includes(job.employmentType);
+
       return matchLevel && matchFormat && matchEmployment;
     });
 
@@ -66,34 +65,42 @@ export const ExchangePage: FC = () => {
   }, [selectedLevels, selectedFormats, selectedEmployments, sortBy]);
 
   return (
-    <div className="min-h-screen flex bg-gray-50 font-sans">
+    // 1. ИСПРАВЛЕНИЕ САЙДБАРА: Фиксируем экран и запрещаем глобальный скролл
+    <div className="h-screen flex overflow-hidden bg-gray-50 font-sans">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         <TopBar />
 
-        <main className="flex-1 p-8 overflow-auto">
-          <div className="max-w-[1200px] mx-auto">
-            {/* 2. Вставляем вкладки навигации сюда */}
+        {/* Скроллится только эта часть */}
+        <main className="flex-1 p-8 overflow-auto relative">
+          <div className="max-w-[1200px] mx-auto pb-12">
             <ExchangeTabs />
 
-            <div className="flex gap-6 items-start">
-              <JobFilters
-                isLocalCurrency={showLocalCurrency}
-                onLocalCurrencyToggle={() =>
-                  setShowLocalCurrency(!showLocalCurrency)
-                }
-                selectedLevels={selectedLevels}
-                onLevelToggle={(val) => toggleFilter(setSelectedLevels, val)}
-                selectedFormats={selectedFormats}
-                onFormatToggle={(val) => toggleFilter(setSelectedFormats, val)}
-                selectedEmployments={selectedEmployments}
-                onEmploymentToggle={(val) =>
-                  toggleFilter(setSelectedEmployments, val)
-                }
-                onClearFilters={clearFilters}
-              />
+            {/* Контейнер с фильтрами и списком (items-start обязателен для sticky) */}
+            <div className="flex gap-6 items-start relative">
+              {/* 2. ИСПРАВЛЕНИЕ ФИЛЬТРОВ: Обертка sticky top-0 заставляет блок прилипать к верху экрана */}
+              <div className="sticky top-0 shrink-0 h-fit z-10">
+                <JobFilters
+                  isLocalCurrency={showLocalCurrency}
+                  onLocalCurrencyToggle={() =>
+                    setShowLocalCurrency(!showLocalCurrency)
+                  }
+                  selectedLevels={selectedLevels}
+                  onLevelToggle={(val) => toggleFilter(setSelectedLevels, val)}
+                  selectedFormats={selectedFormats}
+                  onFormatToggle={(val) =>
+                    toggleFilter(setSelectedFormats, val)
+                  }
+                  selectedEmployments={selectedEmployments}
+                  onEmploymentToggle={(val) =>
+                    toggleFilter(setSelectedEmployments, val)
+                  }
+                  onClearFilters={clearFilters}
+                />
+              </div>
 
+              {/* Список вакансий скроллится сам по себе */}
               <JobList
                 jobs={filteredAndSortedJobs}
                 showLocalCurrency={showLocalCurrency}
