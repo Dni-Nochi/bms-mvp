@@ -3,9 +3,10 @@ import { Sidebar } from '@/widgets/Sidebar';
 import { TopBar } from '@/widgets/TopBar';
 import { JobList } from '@/widgets/JobList';
 import { JobFilters } from '@/widgets/JobFilters';
+// 1. Импортируем вкладки
+import { ExchangeTabs } from '@/widgets/ExchangeTabs';
 import { MOCK_JOBS } from '@/shared/mocks/jobs';
 
-// Добавляем те же курсы, что и в JobCard, для честной сортировки по зарплате
 const EXCHANGE_RATES: Record<string, number> = {
   EUR: 500,
   USD: 450,
@@ -14,12 +15,11 @@ const EXCHANGE_RATES: Record<string, number> = {
 };
 
 export const ExchangePage: FC = () => {
+  // ... (все твои стейты и useMemo остаются БЕЗ ИЗМЕНЕНИЙ) ...
   const [showLocalCurrency, setShowLocalCurrency] = useState(false);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
   const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
   const [selectedEmployments, setSelectedEmployments] = useState<string[]>([]);
-
-  // НОВЫЙ СТЕЙТ: Храним выбранную сортировку
   const [sortBy, setSortBy] = useState<string>('Сначала новые');
 
   const toggleFilter = (
@@ -35,12 +35,10 @@ export const ExchangePage: FC = () => {
     setSelectedLevels([]);
     setSelectedFormats([]);
     setSelectedEmployments([]);
-    setSortBy('Сначала новые'); // Сбрасываем и сортировку тоже
+    setSortBy('Сначала новые');
   };
 
-  // Фильтрация + Сортировка
   const filteredAndSortedJobs = useMemo(() => {
-    // 1. Сначала фильтруем
     let result = MOCK_JOBS.filter((job) => {
       const matchLevel =
         selectedLevels.length === 0 || selectedLevels.includes(job.level);
@@ -49,23 +47,17 @@ export const ExchangePage: FC = () => {
       const matchEmployment =
         selectedEmployments.length === 0 ||
         selectedEmployments.includes(job.employmentType);
-
       return matchLevel && matchFormat && matchEmployment;
     });
 
-    // 2. Затем сортируем результат
     result.sort((a, b) => {
-      if (sortBy === 'Сначала новые') {
-        return b.id - a.id; // Чем больше ID, тем новее (уходит наверх)
-      }
-      if (sortBy === 'Сначала старые') {
-        return a.id - b.id; // Чем меньше ID, тем старее
-      }
+      if (sortBy === 'Сначала новые') return b.id - a.id;
+      if (sortBy === 'Сначала старые') return a.id - b.id;
       if (sortBy === 'Больше зарплата') {
-        // Приводим обе зарплаты к базовой валюте для честного сравнения
-        const salaryA = a.salaryMin * (EXCHANGE_RATES[a.currency] || 1);
-        const salaryB = b.salaryMin * (EXCHANGE_RATES[b.currency] || 1);
-        return salaryB - salaryA; // По убыванию
+        return (
+          b.salaryMin * (EXCHANGE_RATES[b.currency] || 1) -
+          a.salaryMin * (EXCHANGE_RATES[a.currency] || 1)
+        );
       }
       return 0;
     });
@@ -81,29 +73,34 @@ export const ExchangePage: FC = () => {
         <TopBar />
 
         <main className="flex-1 p-8 overflow-auto">
-          <div className="max-w-300 mx-auto flex gap-6 items-start">
-            <JobFilters
-              isLocalCurrency={showLocalCurrency}
-              onLocalCurrencyToggle={() =>
-                setShowLocalCurrency(!showLocalCurrency)
-              }
-              selectedLevels={selectedLevels}
-              onLevelToggle={(val) => toggleFilter(setSelectedLevels, val)}
-              selectedFormats={selectedFormats}
-              onFormatToggle={(val) => toggleFilter(setSelectedFormats, val)}
-              selectedEmployments={selectedEmployments}
-              onEmploymentToggle={(val) =>
-                toggleFilter(setSelectedEmployments, val)
-              }
-              onClearFilters={clearFilters}
-            />
+          <div className="max-w-[1200px] mx-auto">
+            {/* 2. Вставляем вкладки навигации сюда */}
+            <ExchangeTabs />
 
-            <JobList
-              jobs={filteredAndSortedJobs}
-              showLocalCurrency={showLocalCurrency}
-              sortBy={sortBy} // <-- Передаем текущую сортировку
-              onSortChange={setSortBy} // <-- Передаем функцию изменения
-            />
+            <div className="flex gap-6 items-start">
+              <JobFilters
+                isLocalCurrency={showLocalCurrency}
+                onLocalCurrencyToggle={() =>
+                  setShowLocalCurrency(!showLocalCurrency)
+                }
+                selectedLevels={selectedLevels}
+                onLevelToggle={(val) => toggleFilter(setSelectedLevels, val)}
+                selectedFormats={selectedFormats}
+                onFormatToggle={(val) => toggleFilter(setSelectedFormats, val)}
+                selectedEmployments={selectedEmployments}
+                onEmploymentToggle={(val) =>
+                  toggleFilter(setSelectedEmployments, val)
+                }
+                onClearFilters={clearFilters}
+              />
+
+              <JobList
+                jobs={filteredAndSortedJobs}
+                showLocalCurrency={showLocalCurrency}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+              />
+            </div>
           </div>
         </main>
       </div>
