@@ -140,7 +140,8 @@ export const JobList: FC = () => {
             location={vacancy.location}
             language={formatLanguage(vacancy)}
             description={vacancy.description}
-            skills={vacancy.skills}
+            requiredSkills={vacancy.required_skills}
+            preferredSkills={vacancy.preferred_skills}
             matchPercentage={matchPercentage}
             logoLetter={vacancy.company.logo_letter ?? undefined}
             onClick={() => dispatch(openVacancyDetail(vacancy.id))}

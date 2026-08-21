@@ -171,10 +171,20 @@ export const VacancyDetailModal: FC = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {vacancy.skills.map((skill) => (
+                  {vacancy.required_skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2.5 py-1 text-[13px] text-gray-600 bg-gray-100 border border-gray-200 rounded-md"
+                      title="Обязательный навык"
+                      className="px-2.5 py-1 text-[13px] text-gray-700 bg-gray-100 border border-gray-300 rounded-md font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                  {vacancy.preferred_skills.map((skill) => (
+                    <span
+                      key={skill}
+                      title="Будет плюсом"
+                      className="px-2.5 py-1 text-[13px] text-gray-500 bg-white border border-gray-200 border-dashed rounded-md"
                     >
                       {skill}
                     </span>

@@ -15,7 +15,9 @@ export function applyFilters(
   if (filters.skill.trim()) {
     const skillLower = filters.skill.trim().toLowerCase();
     result = result.filter(({ vacancy }) =>
-      vacancy.skills.some((s) => s.toLowerCase().includes(skillLower)),
+      [...vacancy.required_skills, ...vacancy.preferred_skills].some((s) =>
+        s.toLowerCase().includes(skillLower),
+      ),
     );
   }
   if (filters.experienceLevels.length > 0) {

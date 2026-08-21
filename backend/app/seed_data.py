@@ -138,14 +138,17 @@ VACANCIES = [
         "location": "Angola, Benguela",
         "language_name": "Albanian",
         "language_level": "C1 - Продвинутый",
-        "skills": [
+        "required_skills": [
+            "C#", "C++", "Unity", "Unreal Engine", "ARKit", "ARCore",
+            "3D Modeling", "UX/UI",
+        ],
+        "preferred_skills": [
             "Ajax", "Amazon AWS", "Angular", "Atlassian Confluence",
             "Atlassian Jira", "BDD", "Bitbucket", "Bootstrap", "LESS",
             "Laravel", "Linux", "Lumen", "Microservices", "Microsoft Azure",
             "MariaDB", "Memcached", "MS SQL", "MVC", "MySQL", "NoSql",
             "Oracle", "Phalcon", "PHP", "PostgreSQL", "Python", "Qt", "TDD",
-            "Terraform", "Ubuntu", "C#", "C++", "Unity", "Unreal Engine",
-            "ARKit", "ARCore", "3D Modeling", "UX/UI",
+            "Terraform", "Ubuntu",
         ],
         "description": (
             "Interesting and challenging tasks: Development of advanced "
@@ -193,10 +196,8 @@ VACANCIES = [
         "location": "Russia, Moscow",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "Стрессоустойчивость", "Проактивность", "Деловые коммуникации",
-            "1С", "MS Excel", "Критическое мышление",
-        ],
+        "required_skills": ["MS Excel", "1С", "Деловые коммуникации"],
+        "preferred_skills": ["Стрессоустойчивость", "Проактивность", "Критическое мышление"],
         "description": (
             "Опыт работы: 1-3 года. Полная занятость. График: 5/2.\n\n"
             "Вам предстоит вести первичную документацию, помогать в "
@@ -221,10 +222,8 @@ VACANCIES = [
         "location": "Kazakhstan, Almaty",
         "language_name": "English",
         "language_level": "B2 - Выше среднего",
-        "skills": [
-            "JavaScript", "TypeScript", "React", "Redux", "HTML", "CSS",
-            "Git", "REST API", "Webpack", "Jest",
-        ],
+        "required_skills": ["JavaScript", "TypeScript", "React", "Redux", "REST API"],
+        "preferred_skills": ["HTML", "CSS", "Git", "Webpack", "Jest"],
         "description": (
             "Разработка и поддержка пользовательских интерфейсов для "
             "B2B-платформы на React и TypeScript. Работа в кроссфункциональной "
@@ -248,10 +247,8 @@ VACANCIES = [
         "location": "Kyrgyzstan, Bishkek",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "Python", "FastAPI", "PostgreSQL", "Docker", "Git", "REST API",
-            "Redis", "SQLAlchemy", "Linux",
-        ],
+        "required_skills": ["Python", "FastAPI", "PostgreSQL", "REST API"],
+        "preferred_skills": ["Docker", "Git", "Redis", "SQLAlchemy", "Linux"],
         "description": (
             "Разработка backend-сервисов на FastAPI для e-commerce платформы: "
             "API, интеграции с внешними сервисами, оптимизация запросов к БД."
@@ -275,10 +272,8 @@ VACANCIES = [
         "location": "Remote",
         "language_name": "English",
         "language_level": "B2 - Выше среднего",
-        "skills": [
-            "JavaScript", "TypeScript", "Node.js", "React", "MongoDB",
-            "Docker", "Git", "REST API", "Amazon AWS",
-        ],
+        "required_skills": ["JavaScript", "TypeScript", "Node.js", "React"],
+        "preferred_skills": ["MongoDB", "Docker", "Git", "REST API", "Amazon AWS"],
         "description": (
             "Разработка SaaS-продукта целиком: от API на Node.js до "
             "интерфейса на React. Полностью удалённая команда, асинхронная "
@@ -302,10 +297,8 @@ VACANCIES = [
         "location": "Russia, Saint Petersburg",
         "language_name": "English",
         "language_level": "A2 - Элементарный",
-        "skills": [
-            "SQL", "Python", "Excel", "Power BI", "Tableau", "Pandas",
-            "Статистика",
-        ],
+        "required_skills": ["SQL", "Excel"],
+        "preferred_skills": ["Python", "Power BI", "Tableau", "Pandas", "Статистика"],
         "description": (
             "Анализ данных клиентов, построение дашбордов и отчётов для "
             "маркетингового отдела, поиск точек роста в воронке продаж."
@@ -328,10 +321,8 @@ VACANCIES = [
         "location": "Angola, Benguela",
         "language_name": "English",
         "language_level": "B2 - Выше среднего",
-        "skills": [
-            "Figma", "Adobe XD", "Photoshop", "UX Research", "Prototyping",
-            "Design Systems", "UX/UI",
-        ],
+        "required_skills": ["Figma", "UX Research", "UX/UI"],
+        "preferred_skills": ["Adobe XD", "Photoshop", "Prototyping", "Design Systems"],
         "description": (
             "Проектирование интерфейсов для VR/AR приложений и сопутствующих "
             "веб-сервисов космической тематики. Тесная работа с командой "
@@ -355,10 +346,8 @@ VACANCIES = [
         "location": "Remote",
         "language_name": "English",
         "language_level": "C1 - Продвинутый",
-        "skills": [
-            "Docker", "Kubernetes", "Terraform", "Amazon AWS", "CI/CD",
-            "Linux", "Python", "Ansible", "Microservices",
-        ],
+        "required_skills": ["Docker", "Kubernetes", "Terraform", "Amazon AWS"],
+        "preferred_skills": ["CI/CD", "Linux", "Python", "Ansible", "Microservices"],
         "description": (
             "Проектирование и поддержка облачной инфраструктуры на AWS: "
             "CI/CD пайплайны, Kubernetes-кластеры, мониторинг и алертинг."
@@ -381,10 +370,8 @@ VACANCIES = [
         "location": "Kazakhstan, Almaty",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "Selenium", "Postman", "TestRail", "JavaScript", "BDD", "TDD",
-            "Atlassian Jira", "Git",
-        ],
+        "required_skills": ["Selenium", "BDD", "TDD"],
+        "preferred_skills": ["Postman", "TestRail", "JavaScript", "Atlassian Jira", "Git"],
         "description": (
             "Тестирование веб- и мобильных продуктов компании: ручное "
             "тестирование, разработка автотестов, участие в приёмке фич."
@@ -407,10 +394,8 @@ VACANCIES = [
         "location": "Kyrgyzstan, Bishkek",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "Flutter", "Dart", "REST API", "Firebase", "Git", "iOS",
-            "Android",
-        ],
+        "required_skills": ["Flutter", "Dart"],
+        "preferred_skills": ["REST API", "Firebase", "Git", "iOS", "Android"],
         "description": (
             "Разработка кроссплатформенного мобильного приложения для "
             "маркетплейса на Flutter, интеграция с REST API и Firebase."
@@ -433,10 +418,8 @@ VACANCIES = [
         "location": "Angola, Benguela",
         "language_name": "English",
         "language_level": "B2 - Выше среднего",
-        "skills": [
-            "C#", "Unity", "3D Modeling", "Game Design", "Physics",
-            "Shaders", "Unreal Engine",
-        ],
+        "required_skills": ["C#", "Unity"],
+        "preferred_skills": ["3D Modeling", "Game Design", "Physics", "Shaders", "Unreal Engine"],
         "description": (
             "Разработка обучающих VR-симуляций для подготовки космонавтов: "
             "физика, шейдеры, игровая логика на Unity."
@@ -459,10 +442,8 @@ VACANCIES = [
         "location": "Russia, Moscow",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "Подбор персонала", "Собеседования", "HR-аналитика",
-            "Трудовое право", "Деловые коммуникации",
-        ],
+        "required_skills": ["Подбор персонала", "Трудовое право"],
+        "preferred_skills": ["Собеседования", "HR-аналитика", "Деловые коммуникации"],
         "description": (
             "Полный цикл подбора персонала для IT- и финансовых отделов "
             "компании, ведение HR-аналитики и адаптация новых сотрудников."
@@ -485,10 +466,8 @@ VACANCIES = [
         "location": "Russia, Saint Petersburg",
         "language_name": "English",
         "language_level": "B1 - Средний",
-        "skills": [
-            "SMM", "Контент-маркетинг", "SEO", "Google Analytics",
-            "Копирайтинг",
-        ],
+        "required_skills": ["SMM", "SEO"],
+        "preferred_skills": ["Контент-маркетинг", "Google Analytics", "Копирайтинг"],
         "description": (
             "Ведение соцсетей компании, подготовка контент-плана, базовая "
             "SEO-оптимизация и анализ эффективности кампаний."
@@ -511,10 +490,8 @@ VACANCIES = [
         "location": "Kyrgyzstan, Bishkek",
         "language_name": "English",
         "language_level": "C1 - Продвинутый",
-        "skills": [
-            "Python", "TensorFlow", "PyTorch", "Scikit-learn", "Pandas",
-            "NumPy", "Docker", "SQL",
-        ],
+        "required_skills": ["Python", "TensorFlow", "PyTorch"],
+        "preferred_skills": ["Scikit-learn", "Pandas", "NumPy", "Docker", "SQL"],
         "description": (
             "Разработка и внедрение ML-моделей для прогнозирования спроса "
             "и рекомендательной системы e-commerce платформы."

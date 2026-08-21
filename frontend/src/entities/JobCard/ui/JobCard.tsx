@@ -12,7 +12,8 @@ export interface JobCardProps {
   location: string;
   language?: string;
   description: string;
-  skills: string[];
+  requiredSkills: string[];
+  preferredSkills?: string[];
   matchPercentage?: number;
   logoLetter?: string;
   showLocalCurrency?: boolean;
@@ -44,7 +45,8 @@ export const JobCard: FC<JobCardProps> = ({
   location,
   language,
   description,
-  skills,
+  requiredSkills,
+  preferredSkills = [],
   matchPercentage,
   logoLetter,
   showLocalCurrency = false,
@@ -184,10 +186,20 @@ export const JobCard: FC<JobCardProps> = ({
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) => (
+        {requiredSkills.map((skill) => (
           <span
-            key={index}
-            className="px-2.5 py-1 text-[13px] text-gray-600 bg-gray-100 border border-gray-200 rounded-md"
+            key={skill}
+            title="Обязательный навык"
+            className="px-2.5 py-1 text-[13px] text-gray-700 bg-gray-100 border border-gray-300 rounded-md font-medium"
+          >
+            {skill}
+          </span>
+        ))}
+        {preferredSkills.map((skill) => (
+          <span
+            key={skill}
+            title="Будет плюсом"
+            className="px-2.5 py-1 text-[13px] text-gray-500 bg-white border border-gray-200 border-dashed rounded-md"
           >
             {skill}
           </span>

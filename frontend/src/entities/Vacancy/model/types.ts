@@ -25,7 +25,8 @@ export interface Vacancy {
   location: string;
   language_name: string | null;
   language_level: string | null;
-  skills: string[];
+  required_skills: string[];
+  preferred_skills: string[];
   created_at: string;
   company: Company;
 }

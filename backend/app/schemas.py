@@ -34,7 +34,8 @@ class VacancyOut(BaseModel):
     location: str
     language_name: str | None
     language_level: str | None
-    skills: list[str]
+    required_skills: list[str]
+    preferred_skills: list[str]
     created_at: datetime
     company: CompanyOut
 

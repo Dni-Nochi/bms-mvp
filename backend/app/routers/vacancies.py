@@ -37,7 +37,11 @@ def list_vacancies(
 
     if skill:
         skill_lower = skill.lower()
-        vacancies = [v for v in vacancies if skill_lower in [s.lower() for s in v.skills]]
+        vacancies = [
+            v
+            for v in vacancies
+            if skill_lower in [s.lower() for s in v.required_skills + v.preferred_skills]
+        ]
 
     total = len(vacancies)
     page = vacancies[offset : offset + limit]

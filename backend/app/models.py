@@ -55,7 +55,8 @@ class Vacancy(Base):
     language_name: Mapped[str | None] = mapped_column(Text, default=None)
     language_level: Mapped[str | None] = mapped_column(Text, default=None)
 
-    skills: Mapped[list[str]] = mapped_column(JSON, default=list)
+    required_skills: Mapped[list[str]] = mapped_column(JSON, default=list)
+    preferred_skills: Mapped[list[str]] = mapped_column(JSON, default=list)
 
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
