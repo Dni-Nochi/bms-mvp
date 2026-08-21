@@ -16,6 +16,7 @@ export interface JobCardProps {
   matchPercentage?: number;
   logoLetter?: string;
   showLocalCurrency?: boolean;
+  onClick?: () => void;
 }
 
 function matchBadgeStyles(percentage: number): string {
@@ -47,6 +48,7 @@ export const JobCard: FC<JobCardProps> = ({
   matchPercentage,
   logoLetter,
   showLocalCurrency = false,
+  onClick,
 }) => {
   const formatSalary = (min?: number, max?: number | null, curr?: string) => {
     if (min === undefined || min === null) return 'Зарплата не указана';
@@ -71,7 +73,10 @@ export const JobCard: FC<JobCardProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-[19px] font-semibold text-blue-700 leading-tight hover:underline cursor-pointer">
+              <h3
+                onClick={onClick}
+                className="text-[19px] font-semibold text-blue-700 leading-tight hover:underline cursor-pointer"
+              >
                 {title}
               </h3>
               {matchPercentage !== undefined && (

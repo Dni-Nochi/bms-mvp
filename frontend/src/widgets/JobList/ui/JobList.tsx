@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { JobCard } from '@/entities/JobCard';
 import { formatLanguage } from '@/entities/Vacancy';
-import { applyFilters, setSort, sortVacancies, useRankedVacancies } from '@/features/vacancySearch';
+import { applyFilters, openVacancyDetail, setSort, sortVacancies, useRankedVacancies } from '@/features/vacancySearch';
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux';
 import type { SortOption } from '@/features/vacancySearch';
 
@@ -66,6 +66,7 @@ export const JobList: FC = () => {
             skills={vacancy.skills}
             matchPercentage={matchPercentage}
             logoLetter={vacancy.company.logo_letter ?? undefined}
+            onClick={() => dispatch(openVacancyDetail(vacancy.id))}
           />
         ))}
       </div>

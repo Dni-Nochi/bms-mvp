@@ -8,6 +8,8 @@ export {
   setAiMode,
   clearFilters,
   toggleLocalCurrency,
+  openVacancyDetail,
+  closeVacancyDetail,
   default as vacancySearchReducer,
 } from './model/vacancySearchSlice';
 export type { SortOption, VacancySearchState } from './model/vacancySearchSlice';

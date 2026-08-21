@@ -11,6 +11,7 @@ export interface VacancySearchState {
   aiMode: boolean;
   resumeId: number | null;
   showLocalCurrency: boolean;
+  selectedVacancyId: number | null;
 }
 
 const initialState: VacancySearchState = {
@@ -22,6 +23,7 @@ const initialState: VacancySearchState = {
   aiMode: false,
   resumeId: null,
   showLocalCurrency: false,
+  selectedVacancyId: null,
 };
 
 function toggleInArray(arr: string[], value: string): string[] {
@@ -63,6 +65,12 @@ const vacancySearchSlice = createSlice({
     toggleLocalCurrency(state) {
       state.showLocalCurrency = !state.showLocalCurrency;
     },
+    openVacancyDetail(state, action: PayloadAction<number>) {
+      state.selectedVacancyId = action.payload;
+    },
+    closeVacancyDetail(state) {
+      state.selectedVacancyId = null;
+    },
   },
 });
 
@@ -76,6 +84,8 @@ export const {
   setAiMode,
   clearFilters,
   toggleLocalCurrency,
+  openVacancyDetail,
+  closeVacancyDetail,
 } = vacancySearchSlice.actions;
 
 export default vacancySearchSlice.reducer;

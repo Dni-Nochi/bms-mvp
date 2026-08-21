@@ -4,6 +4,7 @@ import { TopBar } from '@/widgets/TopBar';
 import { JobList } from '@/widgets/JobList';
 import { JobFilters } from '@/widgets/JobFilters';
 import { ExchangeTabs } from '@/widgets/ExchangeTabs';
+import { VacancyDetailModal } from '@/widgets/VacancyDetailModal';
 
 export const ExchangePage: FC = () => {
   return (
@@ -24,6 +25,8 @@ export const ExchangePage: FC = () => {
           </div>
         </main>
       </div>
+
+      <VacancyDetailModal />
     </div>
   );
 };
