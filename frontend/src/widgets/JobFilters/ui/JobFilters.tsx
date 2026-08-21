@@ -4,17 +4,35 @@ import { Checkbox } from '@/shared/ui/Checkbox/Checkbox';
 interface JobFiltersProps {
   isLocalCurrency: boolean;
   onLocalCurrencyToggle: () => void;
+  // Новые пропсы для фильтров
+  selectedLevels: string[];
+  onLevelToggle: (level: string) => void;
+  selectedFormats: string[];
+  onFormatToggle: (format: string) => void;
+  selectedEmployments: string[];
+  onEmploymentToggle: (emp: string) => void;
+  onClearFilters: () => void;
 }
 
 export const JobFilters: FC<JobFiltersProps> = ({
   isLocalCurrency,
   onLocalCurrencyToggle,
+  selectedLevels,
+  onLevelToggle,
+  selectedFormats,
+  onFormatToggle,
+  selectedEmployments,
+  onEmploymentToggle,
+  onClearFilters,
 }) => {
   return (
     <aside className="w-70 bg-white border border-gray-200 rounded-2xl p-6 shrink-0 h-fit">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-[17px] font-bold text-gray-900">Фильтр</h2>
-        <button className="text-[13px] font-medium text-blue-600 hover:text-blue-800 transition-colors">
+        <button
+          onClick={onClearFilters}
+          className="text-[13px] font-medium text-blue-600 hover:text-blue-800 transition-colors"
+        >
           Очистить
         </button>
       </div>
@@ -57,8 +75,8 @@ export const JobFilters: FC<JobFiltersProps> = ({
         <div className="relative">
           <select className="w-full appearance-none bg-white border border-gray-300 text-gray-700 text-[14px] rounded-xl px-3 py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer">
             <option value="">Выберите навык</option>
-            <option value="react">React</option>
-            <option value="python">Python</option>
+            <option value="React">React</option>
+            <option value="Python">Python</option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-500">
             <svg
@@ -83,9 +101,14 @@ export const JobFilters: FC<JobFiltersProps> = ({
           Уровень
         </h3>
         <div className="flex flex-col gap-3">
-          <Checkbox label="Начальный" />
-          <Checkbox label="Средний" />
-          <Checkbox label="Эксперт" />
+          {['Начальный', 'Средний', 'Эксперт'].map((level) => (
+            <Checkbox
+              key={level}
+              label={level}
+              checked={selectedLevels.includes(level)}
+              onChange={() => onLevelToggle(level)}
+            />
+          ))}
         </div>
       </div>
 
@@ -94,9 +117,14 @@ export const JobFilters: FC<JobFiltersProps> = ({
           Формат работы
         </h3>
         <div className="flex flex-col gap-3">
-          <Checkbox label="Офисный" />
-          <Checkbox label="Удаленный" />
-          <Checkbox label="Гибридный" />
+          {['Офисный', 'Удаленный', 'Гибридный'].map((format) => (
+            <Checkbox
+              key={format}
+              label={format}
+              checked={selectedFormats.includes(format)}
+              onChange={() => onFormatToggle(format)}
+            />
+          ))}
         </div>
       </div>
 
@@ -105,9 +133,14 @@ export const JobFilters: FC<JobFiltersProps> = ({
           Тип занятости
         </h3>
         <div className="flex flex-col gap-3">
-          <Checkbox label="Почасовая" />
-          <Checkbox label="Частичная" />
-          <Checkbox label="Полная" defaultChecked />
+          {['Почасовая', 'Частичная', 'Полная'].map((emp) => (
+            <Checkbox
+              key={emp}
+              label={emp}
+              checked={selectedEmployments.includes(emp)}
+              onChange={() => onEmploymentToggle(emp)}
+            />
+          ))}
         </div>
       </div>
     </aside>
