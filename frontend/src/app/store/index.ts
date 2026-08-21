@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from '@/shared/api/apiSlice';
+import { vacancySearchReducer } from '@/features/vacancySearch';
 
 export const store = configureStore({
   reducer: {
-    // Добавляем временную заглушку, пока у нас нет реальных фичей
-    _init: (state = {}) => state,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    vacancySearch: vacancySearchReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

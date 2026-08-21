@@ -530,62 +530,111 @@ VACANCIES = [
 RESUMES = [
     {
         "owner_email": "bekbolbeishenaliev37@gmail.com",
+        "first_name": "Азамат",
+        "last_name": "Бекболбеишенлиев",
+        "birth_date": "1998-04-12",
+        "country": "Кыргызстан",
+        "city": "Бишкек",
+        "phone": "+996 700 123 456",
+        "contact_email": "bekbolbeishenaliev37@gmail.com",
         "title": "Frontend-разработчик (React/TypeScript)",
         "summary": (
             "Frontend-разработчик с опытом создания SPA-приложений на React "
             "и TypeScript, интеграции REST API и покрытия кода тестами. "
             "Работал в agile-командах, знаком с CI/CD и контейнеризацией."
         ),
+        "portfolio_url": "https://github.com/azamat-dev",
+        "work_experience": [
+            {
+                "company": "TechNova",
+                "position": "Frontend-разработчик",
+                "start": "2023-02",
+                "end": "",
+                "description": "Разработка B2B-платформы на React и TypeScript.",
+            },
+        ],
         "skills": [
             "JavaScript", "TypeScript", "React", "Redux", "HTML", "CSS",
             "Git", "REST API", "Node.js", "Docker",
         ],
         "experience_level": "Средний",
         "desired_employment_types": ["Полная"],
-        "desired_work_formats": ["Удаленный", "Гибридный"],
+        "desired_work_formats": ["Удаленный"],
         "languages": ["English B2"],
+        "salary_type": "Фиксированная",
         "desired_salary_min": 1500,
         "desired_salary_max": 2500,
         "desired_salary_currency": "USD",
+        "visibility": "Только я",
     },
     {
         "owner_email": None,
+        "first_name": "Диас",
+        "last_name": "Нурланов",
+        "birth_date": "1995-09-03",
+        "country": "Казахстан",
+        "city": "Алматы",
+        "phone": "+7 701 555 22 33",
+        "contact_email": "d.nurlanov@example.com",
         "title": "VR/AR Engineer (Unity/Unreal)",
         "summary": (
             "Инженер по разработке VR/AR приложений: Unity, Unreal Engine, "
             "3D-моделирование, опыт разработки обучающих симуляций и "
             "интерактивных сцен для промышленных и образовательных задач."
         ),
+        "portfolio_url": "https://artstation.com/dias-vr",
+        "work_experience": [
+            {
+                "company": "Cosmo World",
+                "position": "VR/AR Engineer",
+                "start": "2021-06",
+                "end": "",
+                "description": "Разработка VR-симуляций для подготовки космонавтов.",
+            },
+        ],
         "skills": [
             "C#", "C++", "Unity", "Unreal Engine", "3D Modeling", "UX/UI",
             "JavaScript", "Git",
         ],
         "experience_level": "Эксперт",
         "desired_employment_types": ["Полная"],
-        "desired_work_formats": ["Офисный", "Гибридный"],
+        "desired_work_formats": ["Офисный"],
         "languages": ["English B2", "Albanian A2"],
+        "salary_type": "Фиксированная",
         "desired_salary_min": 2500,
         "desired_salary_max": 3500,
         "desired_salary_currency": "EUR",
+        "visibility": "Все пользователи BMS",
     },
     {
         "owner_email": None,
+        "first_name": "Амина",
+        "last_name": "Сатыбалдиева",
+        "birth_date": "2000-01-20",
+        "country": "Кыргызстан",
+        "city": "Бишкек",
+        "phone": "+996 555 987 654",
+        "contact_email": "amina.s@example.com",
         "title": "Data Analyst / ML специалист",
         "summary": (
             "Аналитик данных с интересом к машинному обучению: построение "
             "отчётов и дашбордов, анализ пользовательских метрик, базовые "
             "модели прогнозирования на Python."
         ),
+        "portfolio_url": None,
+        "work_experience": [],
         "skills": [
             "Python", "SQL", "Pandas", "NumPy", "Power BI", "Excel",
             "Статистика", "Scikit-learn",
         ],
         "experience_level": "Начальный",
         "desired_employment_types": ["Полная", "Частичная"],
-        "desired_work_formats": ["Удаленный", "Офисный"],
+        "desired_work_formats": ["Удаленный"],
         "languages": ["English A2"],
+        "salary_type": "Фиксированная",
         "desired_salary_min": 800,
         "desired_salary_max": 1400,
         "desired_salary_currency": "USD",
+        "visibility": "Только я",
     },
 ]

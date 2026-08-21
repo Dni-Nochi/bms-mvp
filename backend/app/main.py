@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, SessionLocal, engine
+from app.migrate import migrate
 from app.routers import resumes, vacancies
 from app.seed import seed
 
@@ -11,6 +12,7 @@ from app.seed import seed
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    migrate(engine)
     db = SessionLocal()
     try:
         seed(db)

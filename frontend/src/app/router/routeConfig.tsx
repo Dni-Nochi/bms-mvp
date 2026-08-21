@@ -1,8 +1,8 @@
 import type { RouteProps } from 'react-router-dom';
 import { HomePage } from '@/pages/home/ui/HomePage';
 import { ExchangePage } from '@/pages/exchange';
-// 1. Добавляем импорт нашей новой страницы
 import { ResumesPage } from '@/pages/resumes';
+import { ResumeEditorPage } from '@/pages/resumeEditor';
 
 export const routeConfig: Record<string, RouteProps> = {
   home: {
@@ -13,9 +13,16 @@ export const routeConfig: Record<string, RouteProps> = {
     path: '/exchange',
     element: <ExchangePage />,
   },
-  // 2. Добавляем новый роут для резюме
   resumes: {
     path: '/exchange/resumes',
     element: <ResumesPage />,
+  },
+  resumeNew: {
+    path: '/exchange/resumes/new',
+    element: <ResumeEditorPage />,
+  },
+  resumeDetail: {
+    path: '/exchange/resumes/:id',
+    element: <ResumeEditorPage />,
   },
 };
